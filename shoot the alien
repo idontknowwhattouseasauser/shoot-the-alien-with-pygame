@@ -1,0 +1,50 @@
+import random
+import pygame
+
+WIDTH=600
+HEIGHT=600
+TITLE="READY, SET, SHOOT!"
+gos=pygame.sprite.Group()
+pygame.init()
+run=True
+
+screen=pygame.display.set_mode((WIDTH,HEIGHT))
+pygame.display.set_caption(TITLE)
+
+class Spritesinhertantss(pygame.sprite.Sprite):
+    def __init__(self,i,x,y):
+        super().__init__()
+        self.image=pygame.image.load(i)
+        self.rect=self.image.get_rect()
+        self.rect.x=x
+        self.rect.y=y
+
+alien=Spritesinhertantss("alien.png",200,200)
+gos=pygame.sprite.Group()
+gos.add(alien)
+font=pygame.font.SysFont("Arial",50)
+text=font.render("",True,"white")
+while run:
+  
+  space=pygame.image.load("space.png")
+  screen.blit(space,(0,0))
+  gos.draw(screen)
+
+  for event in pygame.event.get():            
+
+    if event.type==pygame.MOUSEBUTTONDOWN:
+        pos=pygame.mouse.get_pos()
+        if alien.rect.collidepoint(pos):
+            alien.rect.x=random.randint(50,550)
+            alien.rect.y=random.randint(50,450)
+            text=font.render("WELL DONE!!!!",True,"white")
+
+        else:
+          text=font.render("Try Again!!!!",True,"white")
+
+
+    if event.type==pygame.QUIT:
+        run=False
+
+  screen.blit(text,(150,150))
+  pygame.display.update()
